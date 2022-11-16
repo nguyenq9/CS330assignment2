@@ -63,18 +63,6 @@ class NguyenAssignment2 {
         double getClosePrice() {
             return closePrice;
         }
-
-        void setOpenPrice() {
-        }
-
-        void setHighPrice() {
-        }
-
-        void setLowPrice() {
-        }
-
-        void setClosePrice() {
-        }
     }
 
     static Connection conn;
@@ -113,17 +101,6 @@ class NguyenAssignment2 {
                     Deque<StockData> data = getStockData(ticker, startdate, enddate);
                     System.out.println();
                     System.out.println("Executing investment strategy");
-
-                    // for (StockData d: data) {
-                    // System.out.printf("TransDate: %s, Open: %.2f, High: %.2f, Low: %.2f, Close:
-                    // %.2f%n", d.date, d.openPrice, d.highPrice, d.lowPrice, d.closePrice);
-                    // }
-                    // StockData d = data.getFirst();
-                    // System.out.printf("TransDate: %s, Open: %.2f, High: %.2f, Low: %.2f, Close: %.2f\n", d.date, d.openPrice, d.highPrice, d.lowPrice, d.closePrice);
-
-                    // StockData t = data.getLast();
-                    // System.out.printf("TransDate: %s, Open: %.2f, High: %.2f, Low: %.2f, Close: %.2f\n", t.date, t.openPrice, t.highPrice, t.lowPrice, t.closePrice);
-
                     doStrategy(ticker, data);
                 }
 
@@ -269,7 +246,7 @@ class NguyenAssignment2 {
                 divisor = divisor * 3.0;
                 System.out.printf(
                         "3:1 split on %s %11.2f --> %7.2f\n",
-                        nextRow[1],
+                        nextRow[0],
                         Double.parseDouble(nextRow[4]),
                         Double.parseDouble(currRow[1]));
             }
@@ -310,6 +287,22 @@ class NguyenAssignment2 {
         return total/count;
     }
 
+    static boolean buy(int i, double avg, Deque<StockData> data, int numStock) {
+        if (getFromDeque(i, data).getClosePrice() < avg && (getFromDeque(i, data).getClosePrice()/getFromDeque(i, data).getOpenPrice()) < 0.97000001) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static boolean sell(int i, double avg, Deque<StockData> data, int numStock) {
+        if (numStock >= 100 && getFromDeque(i, data).getOpenPrice() > avg && (getFromDeque(i, data).getOpenPrice()/getFromDeque(i-1, data).getClosePrice()) > 1.00999999) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     static void doStrategy(String ticker, Deque<StockData> data) {
         // To Do:
         // Apply Steps 2.6 to 2.10 explained in the assignment description
@@ -342,23 +335,34 @@ class NguyenAssignment2 {
                 }
 
                 
-                if(getFromDeque(i, data).getClosePrice() < avg && (getFromDeque(i, data).getClosePrice()/getFromDeque(i, data).getOpenPrice()) < 0.97000001) {
+                // if(getFromDeque(i, data).getClosePrice() < avg && (getFromDeque(i, data).getClosePrice()/getFromDeque(i, data).getOpenPrice()) < 0.97000001) {
+                //     numStock += 100;
+                //     netCash -= 8;
+                //     netCash -= 100.00*getFromDeque(i+1, data).getOpenPrice();
+                //     transaction++;
+                // } else if (numStock >= 100 && getFromDeque(i, data).getOpenPrice() > avg && (getFromDeque(i, data).getOpenPrice()/getFromDeque(i-1, data).getClosePrice()) > 1.00999999) {
+                //     numStock -= 100;
+                //     netCash -= 8;
+                //     netCash += 100.00*(getFromDeque(i, data).getOpenPrice()+getFromDeque(i, data).getClosePrice())/2;
+                //     transaction++;
+                // }
+
+                if (buy(i, avg, data, numStock)) {
                     numStock += 100;
                     netCash -= 8;
                     netCash -= 100.00*getFromDeque(i+1, data).getOpenPrice();
                     transaction++;
-                } else if (numStock >= 100 && getFromDeque(i, data).getOpenPrice() > avg && (getFromDeque(i, data).getOpenPrice()/getFromDeque(i-1, data).getClosePrice()) > 1.00999999) {
+                } else if (sell(i, avg, data, numStock)) {
                     numStock -= 100;
                     netCash -= 8;
                     netCash += 100.00*(getFromDeque(i, data).getOpenPrice()+getFromDeque(i, data).getClosePrice())/2;
                     transaction++;
                 }
-                // if (i < 55) {
-                //     System.out.println("Day " + (i+1) + ": " + getFromDeque(i, data).getDate() + ", averag = " + avg + ", total = " + total);
-                // }
+
                 avg = averageClosePrice(total, 50);
 
             }
+            netCash += numStock*getFromDeque(data.size(), data).getOpenPrice();
         }
         System.out.println("Transactions executed: " + transaction);
         System.out.printf("Net cash: %.2f\n", netCash);
