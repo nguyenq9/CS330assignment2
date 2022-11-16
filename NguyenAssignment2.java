@@ -323,29 +323,14 @@ class NguyenAssignment2 {
             double avg = 0.0;
             for (int i = 0; i < 50; i++) {
                 t += getFromDeque(i, data).getClosePrice();
-                // System.out.print(getFromDeque(i, data).getClosePrice() + " | ");
             }
             avg = averageClosePrice(t, 50);
-            // System.out.println("Day " + 50 + ": " + getFromDeque(49, data).getDate() + ", average = " + avg + ", total = " + t);
             for (int i = 50; i < data.size()-1; i++) {
                 double total = 0.0;
                 
                 for (int j = i; j > (i - 50); j--) {
                     total += getFromDeque(j, data).getClosePrice();
                 }
-
-                
-                // if(getFromDeque(i, data).getClosePrice() < avg && (getFromDeque(i, data).getClosePrice()/getFromDeque(i, data).getOpenPrice()) < 0.97000001) {
-                //     numStock += 100;
-                //     netCash -= 8;
-                //     netCash -= 100.00*getFromDeque(i+1, data).getOpenPrice();
-                //     transaction++;
-                // } else if (numStock >= 100 && getFromDeque(i, data).getOpenPrice() > avg && (getFromDeque(i, data).getOpenPrice()/getFromDeque(i-1, data).getClosePrice()) > 1.00999999) {
-                //     numStock -= 100;
-                //     netCash -= 8;
-                //     netCash += 100.00*(getFromDeque(i, data).getOpenPrice()+getFromDeque(i, data).getClosePrice())/2;
-                //     transaction++;
-                // }
 
                 if (buy(i, avg, data, numStock)) {
                     numStock += 100;
@@ -358,9 +343,7 @@ class NguyenAssignment2 {
                     netCash += 100.00*(getFromDeque(i, data).getOpenPrice()+getFromDeque(i, data).getClosePrice())/2;
                     transaction++;
                 }
-
                 avg = averageClosePrice(total, 50);
-
             }
             netCash += numStock*getFromDeque(data.size(), data).getOpenPrice();
         }
