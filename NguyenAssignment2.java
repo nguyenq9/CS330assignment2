@@ -229,7 +229,7 @@ class NguyenAssignment2 {
                 totalsplit++;
                 divisor = divisor * (3.0 / 2.0);
                 System.out.printf(
-                        "3:2 split on %s %11.2f --> %7.2f\n",
+                        "3:2 split on %s %.2f --> %.2f\n",
                         nextRow[0],
                         Double.parseDouble(nextRow[4]),
                         Double.parseDouble(currRow[1]));
@@ -237,7 +237,7 @@ class NguyenAssignment2 {
                 totalsplit++;
                 divisor = divisor * 2.0;
                 System.out.printf(
-                        "2:1 split on %s %11.2f --> %7.2f\n",
+                        "2:1 split on %s %.2f --> %.2f\n",
                         nextRow[0],
                         Double.parseDouble(nextRow[4]),
                         Double.parseDouble(currRow[1]));
@@ -245,7 +245,7 @@ class NguyenAssignment2 {
                 totalsplit++;
                 divisor = divisor * 3.0;
                 System.out.printf(
-                        "3:1 split on %s %11.2f --> %7.2f\n",
+                        "3:1 split on %s %.2f --> %.2f\n",
                         nextRow[0],
                         Double.parseDouble(nextRow[4]),
                         Double.parseDouble(currRow[1]));
@@ -310,7 +310,6 @@ class NguyenAssignment2 {
         // you need to apply these steps
         int transaction = 0;
         double netCash = 0.0;
-        double currCash = 0.0;
         int numStock = 0;
 
         boolean run = false;
@@ -346,6 +345,7 @@ class NguyenAssignment2 {
                 avg = averageClosePrice(total, 50);
             }
             netCash += numStock*getFromDeque(data.size(), data).getOpenPrice();
+            numStock = 0;
         }
         System.out.println("Transactions executed: " + transaction);
         System.out.printf("Net cash: %.2f\n", netCash);
