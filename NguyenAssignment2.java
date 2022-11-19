@@ -122,10 +122,6 @@ class NguyenAssignment2 {
     }
 
     static boolean getName(String ticker) throws SQLException {
-        // To Do:
-        // Execute the first query and print the company name of the ticker user
-        // provided (e.g., INTC to Intel Corp.)
-        // Please don't forget to use a prepared statement
         boolean found = false;
         PreparedStatement pstmt = conn.prepareStatement(
                 "select Name " + "  from company " + "  where Ticker = ?");
@@ -147,21 +143,10 @@ class NguyenAssignment2 {
 
     static Deque<StockData> getStockData(String ticker, String start, String end)
             throws SQLException {
-        // To Do:
-        // Execute the second query, which will return stock information of the ticker
-        // (descending on the transaction date)
-        // Please don't forget to use a prepared statement
-
         Deque<StockData> result = new ArrayDeque<>();
         int totalsplit = 0;
         int tradingDays = 0;
         double divisor = 1.0;
-
-        // To Do:
-        // Loop through all the dates of that company (descending order)
-        // Find a split if there is any (2:1, 3:1, 3:2) and adjust the split accordingly
-        // Include the adjusted data to the result (which is a Deque); You can use
-        // addFirst method for that purpose
         PreparedStatement pstmt = conn.prepareStatement(
                 "select TransDate, OpenPrice, HighPrice, LowPrice, ClosePrice " +
                         "  from pricevolume " +
@@ -304,10 +289,6 @@ class NguyenAssignment2 {
     }
 
     static void doStrategy(String ticker, Deque<StockData> data) {
-        // To Do:
-        // Apply Steps 2.6 to 2.10 explained in the assignment description
-        // data (which is a Deque) has all the information (after the split adjustment)
-        // you need to apply these steps
         int transaction = 0;
         double netCash = 0.0;
         int numStock = 0;
