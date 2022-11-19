@@ -191,7 +191,7 @@ class NguyenAssignment2 {
             result.addFirst(newData);
 
         while (rs.next()) {
-            String[] nextRow = new String[6];
+            String[] nextRow = new String[5];
             nextRow[0] = rs.getString(1).trim();
             nextRow[1] = rs.getString(2).trim();
             nextRow[2] = rs.getString(3).trim();
