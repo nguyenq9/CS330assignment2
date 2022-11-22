@@ -1,10 +1,3 @@
-/* 
-This is a Java skeleton code to help you out with how to start this assignment.
-Please remember that this is NOT a compilable/runnable java file.
-Please feel free to use this skeleton code.
-Please look closely at the "To Do" parts of this file. You may get an idea of how to finish this assignment. 
-*/
-
 import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.security.cert.PKIXBuilderParameters;
@@ -21,10 +14,6 @@ import javax.swing.text.html.HTMLDocument.RunElement;
 class NguyenAssignment2 {
 
     static class StockData {
-
-        // To Do:
-        // Create this class which should contain the information (date, open price,
-        // high price, low price, close price) for a particular ticker
         private String date;
         private double openPrice;
         private double highPrice;
